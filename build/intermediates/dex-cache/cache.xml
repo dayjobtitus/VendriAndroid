@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/jeremy/Development/VendriSDKandroid/VendriSample/build/intermediates/exploded-aar/VendriSDKandroid/vendriSDK/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.0"
+        sha1="8f78a73f6f6c0556c4787e2e421ada9eb5c2d540">
+        <dex dex="/Users/jeremy/Development/VendriSDKandroid/VendriSample/build/intermediates/pre-dexed/debug/classes-8f7e033aab887924db05a9b6d95064868feeac5d.jar" />
+    </item>
+
+</items>

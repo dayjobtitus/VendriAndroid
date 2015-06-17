@@ -1,0 +1,102 @@
+<html lang="en">
+<head>
+    <script>
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        var pid = getParameterByName("pid");
+
+        var scripts = document.createElement('script');
+        scripts.src = "http://vendri.com/test/js/vendri_test.min.js?pid="+pid;
+        document.head.appendChild(scripts);
+
+    </script>
+</head>
+<body>
+<script>
+var fireEvent        = function ( eName, data ) {
+            var evt, key;
+            // FIRE EVENTS INTO THE TARGET CONTAINER
+            if ( document.createEvent ) {
+                evt = document.createEvent( "Events" );
+                evt.initEvent( eName, true, true );
+            }
+            else {
+                evt = document.createEventObject();
+                evt.eventType = eName;
+            }
+            evt.eventName = eName;
+            for ( key in data ) {
+                if ( Object.prototype.hasOwnProperty.call( data, key ) ) {
+                    evt[ key ] = data[ key ];
+                }
+            }
+
+            if ( document.createEvent ) {
+                try {
+                    window.dispatchEvent( evt );
+                    console.log( 'SUBSCRIBE EVENT ' + eName + ' fired; createEvent' , window);
+                }
+                catch (ex) {
+                    console.error( 'SUBSCRIBE EVENT FAILED' + eName + ' fired; createEvent', window, ex );
+                }
+            }
+            else {
+                try {
+                    window.fireEvent( eName, evt );
+                    console.log( 'SUBSCRIBE EVENT ' + eName + ' fired; fireEvent', window );
+                }
+                catch (ex) {
+                    console.error( 'SUBSCRIBE EVENT FAILED' + eName + ' fired; fireEvent', window, ex );
+                }
+            }
+        };
+</script>
+<script>
+//    var container = document.body;
+//    addEvent("vast", container, function (e) {
+//        console.error('clickThru FIRED', e);
+//    });
+//    addEvent("onResize", container, function (e) {
+//        console.error('onResize FIRED', e);
+//    });
+//    addEvent("adStarted", container, function (e) {
+//        console.error('adStarted FIRED', e);
+//    });
+//    addEvent("adLog", container, function (e) {
+//        window.VendriAndroidApp.adStarted("")
+//        console.error('adLog FIRED', e);
+//        console.warn('adLog EVENT', e);
+//    });
+//    addEvent("adFinished", container, function (e) {
+//        window.VendriAndroidApp.adFinished("");
+//        console.warn('adFinished FIRED', e);
+//    });
+//    function addEvent(evnt, elem, func) {
+//        if (Object.prototype.hasOwnProperty.call(elem, 'addEventListener') || elem.addEventListener) {
+//            elem.addEventListener(evnt, func);
+//        }
+//        else if (Object.prototype.hasOwnProperty.call(elem, 'attachEvent') || elem.attachEvent) {
+//            elem.attachEvent("on" + evnt, func);
+//        }
+//        else {
+//            elem[evnt] = func;
+//        }
+//    }
+//    function removeEvent(evnt, elem, func) {
+//        if (Object.prototype.hasOwnProperty.call(elem, 'removeEventListener') || elem.removeEventListener) {
+//            elem.removeEventListener(evnt, func);
+//        }
+//        else if (Object.prototype.hasOwnProperty.call(elem, 'detachEvent') || elem.detachEvent) {
+//            elem.detachEvent("on" + evnt);
+//        }
+//        else {
+//        }
+//    }
+</script>
+</body>
+</html>
