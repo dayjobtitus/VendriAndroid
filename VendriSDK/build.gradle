@@ -9,8 +9,8 @@ android {
 
         minSdkVersion 11
         targetSdkVersion 21
-        versionCode 100
-        versionName "0.1.0"
+        versionCode 102
+        versionName "0.2"
     }
 
     buildTypes {
@@ -46,5 +46,4 @@ android.libraryVariants.all { variant ->
 
 dependencies {
     compile 'com.google.code.gson:gson:2.2.+'
-    compile 'com.android.support:support-v4:19.1.0'
 }

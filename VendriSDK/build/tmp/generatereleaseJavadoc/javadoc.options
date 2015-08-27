@@ -1,8 +1,8 @@
 -classpath '/Users/jeremy/Development/Android/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar:/Users/jeremy/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a60a5e993c98c864010053cb901b7eab25306568/gson-2.2.4.jar:/Users/jeremy/Development/Android/sdk/platforms/android-21/android.jar'
--d '/Users/jeremy/Development/VendriAndroid/VendriSDK/build/docs/javadoc'
+-d '/Users/jeremy/Development/VendriSDKandroid/VendriSDK/build/docs/javadoc'
 -doctitle 'vendriSDK API'
 -quiet 
 -windowtitle 'vendriSDK API'
-'/Users/jeremy/Development/VendriAndroid/VendriSDK/src/main/java/com/vendri/androidsdk/JsInterface.java'
-'/Users/jeremy/Development/VendriAndroid/VendriSDK/src/main/java/com/vendri/androidsdk/Vendri.java'
-'/Users/jeremy/Development/VendriAndroid/VendriSDK/src/main/java/com/vendri/androidsdk/VendriListener.java'
+'/Users/jeremy/Development/VendriSDKandroid/VendriSDK/src/main/java/com/vendri/androidsdk/JsInterface.java'
+'/Users/jeremy/Development/VendriSDKandroid/VendriSDK/src/main/java/com/vendri/androidsdk/Vendri.java'
+'/Users/jeremy/Development/VendriSDKandroid/VendriSDK/src/main/java/com/vendri/androidsdk/VendriListener.java'

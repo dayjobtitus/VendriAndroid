@@ -37,13 +37,16 @@ public class JsInterface {
     @JavascriptInterface
     public void adStarted(final String url) {
         Log.v("adStarted", "in VendriAndroidApp.adStarted()");
+        if(Vendri.vendriCallback != null){
+            Vendri.vendriCallback.adStarted();
+        }
         ((Activity) mContext).runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (aDialog != null) {
                     aDialog.show();
+                    Log.i("JSInterface", "Displayed the ad dialog at adStarted Event");
                 }
-                Log.i("JSInterface", "Displayed the ad dialog at adStarted Event");
             }
         });
     }
@@ -53,13 +56,16 @@ public class JsInterface {
         String msg = ("in VendriAndroidApp.adFinished() with " + status);
         Log.v("adFinished", msg);
 
+        if(Vendri.vendriCallback != null){
+            Vendri.vendriCallback.adFinished();
+        }
         ((Activity) mContext).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (aDialog != null) {
+                if (aDialog != null && aDialog.isShowing()) {
                     aDialog.hide();
+                    Log.i("JSInterface", "Closed the ad dialog at adFinished Event");
                 }
-                Log.i("JSInterface", "Closed the ad dialog at adFinished Event");
             }
         });
     }

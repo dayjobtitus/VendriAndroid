@@ -5,18 +5,19 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
-import com.rapidbizapps.vendrisdk.R;
 
 import org.json.JSONObject;
 
@@ -24,7 +25,7 @@ public class Vendri {
     public static WebView vendriwebview;
     protected final static String ADURL = "adUrl";
     private static Activity PA;
-    protected static VendriListener sCallback;
+    protected static VendriListener vendriCallback;
     public static AlertDialog mDialog;
     public static final String adUrl = "http://vendri.com/test/android.html";
 
@@ -39,22 +40,38 @@ public class Vendri {
     @SuppressLint("NewApi")
     public static void init(final Context mContext, final VendriListener callback,
                             final String pid) {
-        sCallback = callback;
+        vendriCallback = callback;
         PA = (Activity) mContext;
         PA.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    LayoutInflater inflater = (LayoutInflater) mContext
-                                .getSystemService(mContext.LAYOUT_INFLATER_SERVICE);
-                        View dialogView = null;
-                        dialogView = inflater.inflate(
-                                R.layout.vendri_player_layout, null);
-                        mDialog = new AlertDialog.Builder(PA)
+
+                    RelativeLayout dialogView = new RelativeLayout(PA);
+
+                    RelativeLayout.LayoutParams dialogParams = new RelativeLayout.LayoutParams(
+                            RelativeLayout.LayoutParams.MATCH_PARENT,
+                            RelativeLayout.LayoutParams.MATCH_PARENT);
+
+
+                    dialogView.setLayoutParams(dialogParams);
+
+                    mDialog = new AlertDialog.Builder(PA)
                                 .setView(
                                         dialogView)
                                 .create();
-                        playVideoInHTMLPlayer(mContext, dialogView,
+                    mDialog.setCanceledOnTouchOutside(false);
+                    mDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+                        public void onCancel(DialogInterface dialog) {
+
+                            if(vendriwebview != null){
+                                // adwebview.loadUrl("javascript:ADD_YOUR_CALL_HERE");
+                            }
+                        }
+                    });
+
+                    playVideoInHTMLPlayer(mContext, dialogView,
                                 adUrl + "?pid=" + pid);
                 } catch (Exception e) {
                     Log.e("Error at Launch Add", e.getMessage());
@@ -76,9 +93,27 @@ public class Vendri {
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
 
         vendriwebview.setLayoutParams(params);
-        ((RelativeLayout) dialogView).addView(vendriwebview);
+
         vendriwebview.setWebChromeClient(new
                 WebChromeClient());
+        vendriwebview.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(url));
+                    PA.startActivity(intent);
+                    //Tell the WebView you took care of it.
+                    return true;
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return true;
+            }
+        });
+
+
         WebSettings webSettings = vendriwebview.getSettings();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             webSettings.setMediaPlaybackRequiresUserGesture(false);
@@ -91,6 +126,8 @@ public class Vendri {
         webSettings.setUseWideViewPort(false);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+        ((RelativeLayout) dialogView).addView(vendriwebview);
 
         vendriwebview.loadUrl(videoURL);
 //        vendriwebview.loadDataWithBaseURL(null, vendriHtml, "text/html", "utf-8", null);
