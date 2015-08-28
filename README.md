@@ -1,7 +1,7 @@
 VendriSDKandroid
 ================
 
-Android client SDK for Vendri
+Android client SDK for Vendri V2
 
 * Vendri needs to be initialized when the Android activity is loaded. Recommended to load it at onCreate in an Activity to make sure Vendri loads only one time.
 * In your activity, implement **VendriListener** to subscribe to the vendri events to your application
