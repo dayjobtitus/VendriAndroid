@@ -27,7 +27,8 @@ public class Vendri {
     private static Activity PA;
     protected static VendriListener vendriCallback;
     public static AlertDialog mDialog;
-    public static final String adUrl = "http://vendri.com/test/android.html";
+//    public static final String adUrl = "http://vendri.com/test/android.html";
+    public static final String adUrl = "http://localhost:63342/n1i6ygj861d5hazxr0xodotpe9wym5oqoyh5t/VendriAndroid/android.html";
 
     /**
      * adds a view to the app, in which the ad in the url will be shown and on
