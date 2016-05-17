@@ -43,8 +43,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 @SuppressLint({ "NewApi", "SetJavaScriptEnabled" })
-public class HelloEffects extends Activity implements GLSurfaceView.Renderer,
-        VendriListener {
+public class HelloEffects extends Activity implements GLSurfaceView.Renderer, VendriListener {
 
     private GLSurfaceView mEffectView;
     private final int[] mTextures = new int[2];
@@ -352,7 +351,7 @@ public class HelloEffects extends Activity implements GLSurfaceView.Renderer,
     }
 
     @Override
-    public void adFinished(final int status) {
+    public void adFinished() {
         Toast.makeText(getApplicationContext(), "Ad Finished", Toast.LENGTH_LONG).show();
     }
 

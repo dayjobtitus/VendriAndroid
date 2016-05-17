@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>aaa</title>
+
+        <style>
+
+            html, body, #android_div {
+                height: 100%;
+                width: 100%;
+                text-align: center;
+                background-color: black;
+                margin: 0px;
+                padding: 0px;
+                border: none;
+            }
+
+        </style>
+
+        <script src="http://vendri.com/test/js/vendri_qa.min.js?pid=006"></script>
+    </head>
+<body>
+
+<div id="top_companion"></div>
+<div id="android_div"></div>
+<div id="bottom_companion"></div>
+
+<script>
+    var fireEvent = function (eName, data) {
+        var evt, key;
+        // FIRE EVENTS INTO THE TARGET CONTAINER
+        if (document.createEvent) {
+            evt = document.createEvent("Events");
+            evt.initEvent(eName, true, true);
+        }
+        else {
+            evt = document.createEventObject();
+            evt.eventType = eName;
+        }
+        evt.eventName = eName;
+        for (key in data) {
+            if (Object.prototype.hasOwnProperty.call(data, key)) {
+                evt[key] = data[key];
+            }
+        }
+
+        if (document.createEvent) {
+            try {
+                window.dispatchEvent(evt);
+                console.log('SUBSCRIBE EVENT ' + eName + ' fired; createEvent', window);
+            }
+            catch (ex) {
+                console.error('SUBSCRIBE EVENT FAILED' + eName + ' fired; createEvent', window, ex);
+            }
+        }
+        else {
+            try {
+                window.fireEvent(eName, evt);
+                console.log('SUBSCRIBE EVENT ' + eName + ' fired; fireEvent', window);
+            }
+            catch (ex) {
+                console.error('SUBSCRIBE EVENT FAILED' + eName + ' fired; fireEvent', window, ex);
+            }
+        }
+    };
+</script>
+</body>
+</html>
