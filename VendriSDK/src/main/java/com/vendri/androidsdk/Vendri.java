@@ -7,10 +7,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -99,6 +101,12 @@ public class Vendri {
         vendriwebview.setWebChromeClient(new
                 WebChromeClient());
         vendriwebview.setWebViewClient(new WebViewClient(){
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error){
+                handler.proceed();
+            }
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 try {
