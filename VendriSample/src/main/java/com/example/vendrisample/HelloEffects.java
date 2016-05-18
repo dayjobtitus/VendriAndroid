@@ -55,7 +55,7 @@ public class HelloEffects extends Activity implements GLSurfaceView.Renderer, Ve
     private Boolean mInitialized = false;
     int mCurrentEffect;
     public String[] vendriVar = new String[20];
-    public String vendriPID = "205";
+    public String vendriPID = "555";
 
 
     // implements the same listeners to recieve the callback for events

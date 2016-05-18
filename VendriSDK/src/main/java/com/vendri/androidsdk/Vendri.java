@@ -27,8 +27,8 @@ public class Vendri {
     private static Activity PA;
     protected static VendriListener vendriCallback;
     public static AlertDialog mDialog;
-//    public static final String adUrl = "http://vendri.com/test/android.html";
-    public static final String adUrl = "http://localhost:63342/n1i6ygj861d5hazxr0xodotpe9wym5oqoyh5t/VendriAndroid/android.html";
+    public static final String adUrl = "http://vendri.com/test/android.html";
+//    public static final String adUrl = "http://vendrilocal.com:63342/n1i6ygj861d5hazxr0xodotpe9wym5oqoyh5t/VendriAndroid/android.html";
 
     /**
      * adds a view to the app, in which the ad in the url will be shown and on
@@ -73,9 +73,10 @@ public class Vendri {
                     });
 
                     playVideoInHTMLPlayer(mContext, dialogView,
-                                adUrl + "?pid=" + pid);
+                                adUrl + "?PID=" + pid);
+                    Log.d("vendri", "Loading iframe with html: " + adUrl + "?PID=" + pid);
                 } catch (Exception e) {
-                    Log.e("Error at Launch Add", e.getMessage());
+                    Log.e("Error at Launch Ad", e.getMessage());
                 }
             }
         });
@@ -84,6 +85,7 @@ public class Vendri {
     @SuppressLint("NewApi")
     public static void playVideoInHTMLPlayer(final Context context, final View dialogView,
                                              final String videoURL) {
+        Log.d("vendriwebview", "setting up");
         vendriwebview = new WebView(context);
 //        final Activity activity = (Activity) context;
 //        String vendriHtml = "function getParameterByName(name) {name = name.replace(/[\\[]/, \"\\\\[\").replace(/[\\]]/, \"\\\\]\");var regex = new RegExp(\"[\\\\?&]\" + name + \"=([^&#]*)\"),results = regex.exec(location.search);return results === null ? \"\" : decodeURIComponent(results[1].replace(/\\+/g, \" \"));}\n" +
@@ -132,6 +134,8 @@ public class Vendri {
 
         vendriwebview.loadUrl(videoURL);
 //        vendriwebview.loadDataWithBaseURL(null, vendriHtml, "text/html", "utf-8", null);
+
+        Log.d("vendriwebview", "should have loaded webview");
     }
 
     @SuppressLint("NewApi")
