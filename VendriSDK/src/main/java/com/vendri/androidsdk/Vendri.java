@@ -213,7 +213,7 @@ public class Vendri {
 
     @SuppressLint("NewApi")
     //Function that will call Vendri().play() with the given json object as string.
-    public static void play(final JSONObject config) {
+    public static void play(final JSONObject config,final int PLID) {
         Gson gson = new Gson();
 
         final String customConfig = gson.toJson(config);
@@ -223,7 +223,7 @@ public class Vendri {
                 @Override
                 public void run() {
                     Log.d("Vendri", "Called play with JSON");
-                    vendriwebview.loadUrl("javascript:Vendri().play("+customConfig+");");
+                    vendriwebview.loadUrl("javascript:Vendri.play("+customConfig+","+PLID+");");
                 }
             });
         }

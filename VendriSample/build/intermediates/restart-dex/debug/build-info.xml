@@ -4,7 +4,7 @@
     api-level="22"
     density="420dpi"
     format="7"
-    timestamp="10444228191867" >
+    timestamp="15504023010457" >
 
     <task
         name="javac"
@@ -14,10 +14,10 @@
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="164" />
+        duration="81" />
     <task
         name="verifier"
-        duration="14" />
+        duration="11" />
 
     <artifact
         location="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\intermediates\res\resources-debug.ap_"
@@ -25,18 +25,24 @@
     <artifact
         location="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\intermediates\transforms\dex\debug\folders\1000\5\slice_8\classes.dex"
         type="DEX" />
+    <artifact
+        location="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\intermediates\transforms\dex\debug\folders\1000\5\slice_9\classes.dex"
+        type="DEX" />
 
-    <build timestamp="9771663531822" >
+    <build timestamp="10772254662700" >
         <artifact
             location="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\outputs\apk\vendriSample-debug.apk"
             type="MAIN" />
     </build>
-    <build timestamp="10444228191867" >
+    <build timestamp="15504023010457" >
         <artifact
             location="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\intermediates\res\resources-debug.ap_"
             type="RESOURCES" />
         <artifact
             location="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\intermediates\transforms\dex\debug\folders\1000\5\slice_8\classes.dex"
+            type="DEX" />
+        <artifact
+            location="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\intermediates\transforms\dex\debug\folders\1000\5\slice_9\classes.dex"
             type="DEX" />
     </build>
 

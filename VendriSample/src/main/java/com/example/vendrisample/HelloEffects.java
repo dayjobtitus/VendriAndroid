@@ -305,8 +305,7 @@ public class HelloEffects extends Activity implements GLSurfaceView.Renderer, Ve
 
                 JSONObject obj = new JSONObject(json);
 
-//                Vendri.play(obj);
-                Vendri.trigger("playad", obj);
+                Vendri.play(obj, 6);
                 Log.d("My App", obj.toString());
 
             } catch (Throwable t) {
