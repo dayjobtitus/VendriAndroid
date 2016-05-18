@@ -1,3 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
 
+    <item
+        jar="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="22.0.0"
+        sha1="a20807ce61df96c7841382e1448bbc7c33827bf7">
+        <dex dex="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_abda68d0b1cb7e05296055c72eba3fafdc4526e0\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="22.0.0"
+        sha1="3fcc9a886bd05d157053b965e43314858588da2a">
+        <dex dex="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_a9c799eeaf1bf7ab4b99f19e4ada4b47aa20dabd\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jerem\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
+        jumboMode="true"
+        revision="22.0.0"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
+        <dex dex="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\intermediates\transforms\dex\debug\folders\1000\10\support-v4-19.1.0_9b458c2cf1118bbd666b79302b79a4c748d99d26\classes.dex" />
+    </item>
+    <item
+        jar="C:\Program Files\Android\Android Studio\gradle\m2repository\com\google\code\gson\gson\2.2.4\gson-2.2.4.jar"
+        jumboMode="true"
+        revision="22.0.0"
+        sha1="a60a5e993c98c864010053cb901b7eab25306568">
+        <dex dex="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\intermediates\transforms\dex\debug\folders\1000\10\gson-2.2.4_313aff129984a0a45e086871ec03bfcc02e7284e\classes.dex" />
+    </item>
+
+</items>

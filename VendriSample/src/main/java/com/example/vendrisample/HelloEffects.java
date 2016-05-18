@@ -55,7 +55,7 @@ public class HelloEffects extends Activity implements GLSurfaceView.Renderer, Ve
     private Boolean mInitialized = false;
     int mCurrentEffect;
     public String[] vendriVar = new String[20];
-    public String vendriPID = "555";
+    public String vendriPID = "003";
 
 
     // implements the same listeners to recieve the callback for events
@@ -299,12 +299,14 @@ public class HelloEffects extends Activity implements GLSurfaceView.Renderer, Ve
             applyEffect();
 
             // manual play request (bypasses or works in addition to triggers)
-            String json = "{\"adTags\":[\"http://ad3.liverail.com/?LR_PUBLISHER_ID=1331&LR_CAMPAIGN_ID=229&LR_SCHEMA=vast2\"],\"width\":640,\"height\":480,\"minWidth\":300,\"minHeight\":34,\"retry\":0,\"theme\":\"light\",\"autoplay\":true,\"volume\":0.7,\"controls\":{\"play\":true,\"volume\":true,\"mute\":true,\"progress\":true},\"map\":[{\"name\":\"asdf\",\"callback\":\"{vendriVar}\"}],\"events\":[{\"name\":\"adFinished\",\"callback\":\"helloWorld\"}],\"preferredType\":\"html5\",\"constraints\":{\"startTime\":3,\"playTime\":false},\"bitrate\":{\"check\":true,\"default\":600,\"async\":false},\"audioClickthrough\":false,\"debug\":false}";
+//            String json = "{\"adTags\":[\"http://ad3.liverail.com/?LR_PUBLISHER_ID=1331&LR_CAMPAIGN_ID=229&LR_SCHEMA=vast2\"],\"width\":640,\"height\":480,\"minWidth\":300,\"minHeight\":34,\"retry\":0,\"theme\":\"light\",\"autoplay\":true,\"volume\":0.7,\"controls\":{\"play\":true,\"volume\":true,\"mute\":true,\"progress\":true},\"map\":[{\"name\":\"asdf\",\"callback\":\"{vendriVar}\"}],\"events\":[{\"name\":\"adFinished\",\"callback\":\"helloWorld\"}],\"preferredType\":\"html5\",\"constraints\":{\"startTime\":3,\"playTime\":false},\"bitrate\":{\"check\":true,\"default\":600,\"async\":false},\"audioClickthrough\":false,\"debug\":false}";
+            String json = "{}";
             try {
 
                 JSONObject obj = new JSONObject(json);
 
-                Vendri.play(obj);
+//                Vendri.play(obj);
+                Vendri.trigger("playad", obj);
                 Log.d("My App", obj.toString());
 
             } catch (Throwable t) {

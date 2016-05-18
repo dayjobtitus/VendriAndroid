@@ -4,7 +4,7 @@
     api-level="22"
     density="420dpi"
     format="7"
-    timestamp="4749221628130" >
+    timestamp="10231431138565" >
 
     <task
         name="javac"
@@ -19,19 +19,11 @@
         name="verifier"
         duration="0" />
 
-    <build timestamp="3089345513874" >
+    <build timestamp="9771663531822" >
         <artifact
             location="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\outputs\apk\vendriSample-debug.apk"
             type="MAIN" />
     </build>
-    <build timestamp="4669273586274" >
-        <artifact
-            location="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\intermediates\transforms\dex\debug\folders\1000\5\slice_8\classes.dex"
-            type="DEX" />
-        <artifact
-            location="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\intermediates\transforms\dex\debug\folders\1000\5\slice_9\classes.dex"
-            type="DEX" />
-    </build>
-    <build timestamp="4749221628130" />
+    <build timestamp="10231431138565" />
 
 </instant-run>

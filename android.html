@@ -1,26 +1,33 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>aaa</title>
+    <meta charset="utf-8">
 
-        <style>
+    <style>
 
-            html, body, #android_div {
-                height: 100%;
-                width: 100%;
-                text-align: center;
-                background-color: black;
-                margin: 0px;
-                padding: 0px;
-                border: none;
-            }
+        html, body, #android_div {
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        background-color: black;
+        margin: 0px;
+        padding: 0px;
+        border: none;
+        }
 
-        </style>
+    </style>
 
-        <!--<script src="http://vendri.com/test/js/vendri_qa.min.js?pid=006"></script>-->
-        <!--<script src="http://vendrilocal.com:63342/n1i6ygj861d5hazxr0xodotpe9wym5oqoyh5t/VendriAndroid/android.html?pid=006"></script>-->
-    </head>
+    <script>
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+        var pid = getParameterByName("PID") || getParameterByName("pid");
+        var scripts = document.createElement('script');
+        scripts.src = "https://vendri.com/test/js/vendri_test.min.js?PID=" + pid;
+        document.head.appendChild(scripts);
+    </script>
+</head>
 <body>
 
 <div id="top_companion"></div>
@@ -65,9 +72,6 @@
             }
         }
     };
-
-
-    console.log('vendri IFRAME SETUP');
 </script>
 </body>
 </html>
