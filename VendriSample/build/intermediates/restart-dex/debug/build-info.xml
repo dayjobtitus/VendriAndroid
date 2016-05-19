@@ -4,46 +4,29 @@
     api-level="22"
     density="420dpi"
     format="7"
-    timestamp="15504023010457" >
+    timestamp="91298576166704" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="272" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="81" />
+        duration="148" />
     <task
         name="verifier"
-        duration="11" />
+        duration="54" />
 
     <artifact
-        location="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\intermediates\res\resources-debug.ap_"
-        type="RESOURCES" />
-    <artifact
-        location="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\intermediates\transforms\dex\debug\folders\1000\5\slice_8\classes.dex"
-        type="DEX" />
-    <artifact
-        location="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\intermediates\transforms\dex\debug\folders\1000\5\slice_9\classes.dex"
-        type="DEX" />
+        location="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\outputs\apk\vendriSample-debug.apk"
+        type="MAIN" />
 
-    <build timestamp="10772254662700" >
+    <build timestamp="91298576166704" >
         <artifact
             location="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\outputs\apk\vendriSample-debug.apk"
             type="MAIN" />
-    </build>
-    <build timestamp="15504023010457" >
-        <artifact
-            location="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\intermediates\res\resources-debug.ap_"
-            type="RESOURCES" />
-        <artifact
-            location="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\intermediates\transforms\dex\debug\folders\1000\5\slice_8\classes.dex"
-            type="DEX" />
-        <artifact
-            location="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\intermediates\transforms\dex\debug\folders\1000\5\slice_9\classes.dex"
-            type="DEX" />
     </build>
 
 </instant-run>

@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
@@ -136,6 +137,8 @@ public class Vendri {
         webSettings.setUseWideViewPort(false);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+        vendriwebview.setWebContentsDebuggingEnabled(true);
 
         ((RelativeLayout) dialogView).addView(vendriwebview);
 
