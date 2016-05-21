@@ -109,8 +109,17 @@ public class HelloEffects extends Activity implements GLSurfaceView.Renderer, Ve
         if (savedInstanceState == null) {
             String[] toppings = {"Cheese", "Pepperoni", "Black Olives"};
             vendriVar = toppings;
-            Vendri.init(this, vendriListener, vendriPID);
+            Vendri.init(getApplicationContext(), vendriPID);
+            Vendri.tetherToActivity(this);
+            Vendri.setListener(this);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        Vendri.untether();
+
+        super.onDestroy();
     }
 
     private void loadTextures() {
@@ -309,6 +318,7 @@ public class HelloEffects extends Activity implements GLSurfaceView.Renderer, Ve
                 Log.d("My App", obj.toString());
 
             } catch (Throwable t) {
+                Log.e("My App", t.toString());
                 Log.e("My App", "Could not parse malformed JSON: "+json+"");
             }
 

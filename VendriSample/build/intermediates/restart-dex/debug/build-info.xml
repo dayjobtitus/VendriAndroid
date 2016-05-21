@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <instant-run
-    abi="x86"
+    abi="arm64-v8a,armeabi-v7a,armeabi"
     api-level="22"
-    density="420dpi"
+    density="xxxhdpi"
     format="7"
-    timestamp="91298576166704" >
+    timestamp="1463793207529097000" >
 
     <task
         name="javac"
-        duration="272" />
+        duration="105" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="148" />
+        duration="89" />
     <task
         name="verifier"
-        duration="54" />
+        duration="15" />
 
     <artifact
-        location="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\outputs\apk\vendriSample-debug.apk"
+        location="/Users/jgentry/Desktop/crunchyroid/VendriAndroid/VendriSample/build/outputs/apk/vendriSample-debug.apk"
         type="MAIN" />
 
-    <build timestamp="91298576166704" >
+    <build timestamp="1463793207529097000" >
         <artifact
-            location="C:\Users\jerem\OneDrive\Documents\GitHub\VendriAndroid\VendriSample\build\outputs\apk\vendriSample-debug.apk"
+            location="/Users/jgentry/Desktop/crunchyroid/VendriAndroid/VendriSample/build/outputs/apk/vendriSample-debug.apk"
             type="MAIN" />
     </build>
 

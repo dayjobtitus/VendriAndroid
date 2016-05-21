@@ -11,8 +11,13 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -25,112 +30,60 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 
 public class Vendri {
-    public static WebView vendriwebview;
-    protected final static String ADURL = "adUrl";
-    private static Activity PA;
-    protected static VendriListener vendriCallback;
-    public static AlertDialog mDialog;
-    public static final String adUrl = "https://vendri.com/test/android.html";
+    private static WebView webView;
+    private static Activity tetheredActivity;
+    protected static AlertDialog alertDialog;
+    private static volatile boolean dialogIsReady = false;
+
+    protected static VendriListener eventListener;
+
+    public static final String VENDRI_URL = "https://vendri.com/test/android.html";
+
+    // call when parent activity dies
+    public static void untether() {
+        Log.i("Vendri", "Removing WebView from Dialog and cleaning up");
+        // remove webview from dialog before killing it
+        // or our webview will also get killed
+        if (webView.getParent() != null) {
+            ViewGroup parent = (ViewGroup)webView.getParent();
+            parent.removeView(webView);
+        }
+        dialogIsReady = false;
+        // dismiss the dialog so it doesn't get leaked
+        if (alertDialog != null) {
+            alertDialog.dismiss();
+            alertDialog = null;
+        }
+        tetheredActivity = null;
+    }
 
     /**
      * adds a view to the app, in which the ad in the url will be shown and on
      * finished event the view will be automatically closed / removed.
      *
-     * @param mContext
-     * @param callback
+     * @param applicationContext
      * @param pid
      */
     @SuppressLint("NewApi")
-    public static void init(final Context mContext, final VendriListener callback,
-                            final String pid) {
-        vendriCallback = callback;
-        PA = (Activity) mContext;
-        PA.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-
-                    RelativeLayout dialogView = new RelativeLayout(PA);
-
-                    RelativeLayout.LayoutParams dialogParams = new RelativeLayout.LayoutParams(
-                            RelativeLayout.LayoutParams.MATCH_PARENT,
-                            RelativeLayout.LayoutParams.MATCH_PARENT);
-
-
-                    dialogView.setLayoutParams(dialogParams);
-
-                    mDialog = new AlertDialog.Builder(PA)
-                                .setView(
-                                        dialogView)
-                                .create();
-                    mDialog.setCanceledOnTouchOutside(false);
-                    mDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-
-                        public void onCancel(DialogInterface dialog) {
-
-                            if(vendriwebview != null){
-                                // adwebview.loadUrl("javascript:ADD_YOUR_CALL_HERE");
-                            }
-                        }
-                    });
-
-                    playVideoInHTMLPlayer(mContext, dialogView,
-                                adUrl + "?PID=" + pid);
-                    Log.d("vendri", "Loading iframe with html: " + adUrl + "?PID=" + pid);
-                } catch (Exception e) {
-                    Log.e("Error at Launch Ad", e.getMessage());
-                }
-            }
-        });
-    }
-
-    @SuppressLint("NewApi")
-    public static void playVideoInHTMLPlayer(final Context context, final View dialogView,
-                                             final String videoURL) {
-        Log.d("vendriwebview", "setting up");
-        vendriwebview = new WebView(context);
-//        final Activity activity = (Activity) context;
-//        String vendriHtml = "function getParameterByName(name) {name = name.replace(/[\\[]/, \"\\\\[\").replace(/[\\]]/, \"\\\\]\");var regex = new RegExp(\"[\\\\?&]\" + name + \"=([^&#]*)\"),results = regex.exec(location.search);return results === null ? \"\" : decodeURIComponent(results[1].replace(/\\+/g, \" \"));}\n" +
-//                "var pid = getParameterByName(\"pid\"), scripts = document.createElement('script');scripts.src = \"http://vendri.com/test/js/vendri_test.min.js?pid=\"+pid;document.head.appendChild(scripts);";
+    public static void init (final Context applicationContext, final String pid) {
+        if (webView != null) {
+            Log.w("Vendri", "Called init() when already initialized");
+            return;
+        }
+        Log.i("Vendri", "Creating Vendri WebView");
+        webView = new WebView(applicationContext);
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        webView.setLayoutParams(params);
 
-        vendriwebview.setLayoutParams(params);
+        webView.setWebChromeClient(new WebChromeClient());
 
-        vendriwebview.setWebChromeClient(new
-                WebChromeClient());
-        vendriwebview.setWebViewClient(new WebViewClient(){
-
-            @Override
-            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error){
-                handler.proceed();
-            }
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(url));
-                    PA.startActivity(intent);
-                    //Tell the WebView you took care of it.
-                    return true;
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return true;
-            }
-        });
-
-
-        WebSettings webSettings = vendriwebview.getSettings();
+        WebSettings webSettings = webView.getSettings();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             webSettings.setMediaPlaybackRequiresUserGesture(false);
         }
-        vendriwebview.addJavascriptInterface(new JsInterface(vendriwebview, PA, mDialog),
-                "VendriAndroidApp");
         webSettings.setJavaScriptEnabled(true);
         webSettings.setBuiltInZoomControls(false);
         webSettings.setDisplayZoomControls(false);
@@ -138,111 +91,188 @@ public class Vendri {
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
-        vendriwebview.setWebContentsDebuggingEnabled(true);
+        WebView.setWebContentsDebuggingEnabled(true);
 
-        ((RelativeLayout) dialogView).addView(vendriwebview);
+        webView.loadUrl(VENDRI_URL + "?PID=" + pid);
+    }
 
-        vendriwebview.loadUrl(videoURL);
-//        vendriwebview.loadDataWithBaseURL(null, vendriHtml, "text/html", "utf-8", null);
+    public static void tetherToActivity(final Activity activity) {
+        UiHelper.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    tetheredActivity = activity;
 
-        Log.d("vendriwebview", "should have loaded webview");
+                    RelativeLayout viewLayout = new RelativeLayout(activity);
+                    RelativeLayout.LayoutParams dialogParams = new RelativeLayout.LayoutParams(
+                            RelativeLayout.LayoutParams.MATCH_PARENT,
+                            RelativeLayout.LayoutParams.MATCH_PARENT);
+                    viewLayout.setLayoutParams(dialogParams);
+
+                    alertDialog = new AlertDialog.Builder(activity, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+                            .setView(viewLayout)
+                            .create();
+                    alertDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+                    alertDialog.setCanceledOnTouchOutside(false);
+                    alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        public void onCancel(DialogInterface dialog) {
+                            if (webView != null) {
+                                // adwebview.loadUrl("javascript:ADD_YOUR_CALL_HERE");
+                            }
+                        }
+                    });
+
+                    webView.setWebViewClient(new WebViewClient() {
+                        @Override
+                        public void onReceivedSslError(WebView view, SslErrorHandler errorHandler, SslError error) {
+                            errorHandler.proceed();
+                        }
+
+                        @Override
+                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                            try {
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setData(Uri.parse(url));
+                                activity.startActivity(intent);
+                                // Tell the WebView you took care of it.
+                                return true;
+                            }
+                            catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            return true;
+                        }
+                    });
+                    try {
+                        webView.removeJavascriptInterface("VendriAndroidApp");
+                    }
+                    catch (Exception e) {
+                        Log.e("Vendri", "Can't remove JS Interface");
+                        Log.e("Vendri", e.toString());
+                    }
+                    webView.addJavascriptInterface(new JsInterface(), "VendriAndroidApp");
+
+                    if (webView.getParent() != null) {
+                        ViewGroup parent = (ViewGroup)webView.getParent();
+                        parent.removeView(webView);
+                    }
+                    viewLayout.addView(webView);
+                    dialogIsReady = true;
+                } catch (Exception e) {
+                    Log.e("Error at Launch Ad", e.getMessage());
+                }
+            }
+        });
+    }
+
+    public static void setListener(VendriListener listener) {
+        eventListener = listener;
     }
 
     @SuppressLint("NewApi")
     public static void viewSaveState(Bundle outState) {
-        vendriwebview.saveState(outState);
+        webView.saveState(outState);
     }
 
     @SuppressLint("NewApi")
     public static void viewRestoreState(Bundle savedInstanceState) {
-        vendriwebview.restoreState(savedInstanceState);
+        webView.restoreState(savedInstanceState);
     }
 
     @SuppressLint("NewApi")
     public static void trigger(final String eventName, final JSONObject eventData) {
-        Gson gson = new Gson();
         String customPub = "";
-        if(eventData != null){
-            customPub = gson.toJson(eventData);
+        if (eventData != null){
+            customPub = new Gson().toJson(eventData);
         }
         fireCallEventIntoJs(eventName, customPub);
     }
 
     @SuppressLint("NewApi")
     public static void fireCallEventIntoJs(final String evtName, final String evtData) {
-        if(vendriwebview != null && PA != null){
-            PA.runOnUiThread(new Runnable() {
+        if (webView != null && tetheredActivity != null) {
+            UiHelper.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    vendriwebview.loadUrl("javascript:fireEvent('"+evtName+"','"+evtData+"');");
+                    webView.loadUrl("javascript:fireEvent('"+evtName+"','"+evtData+"');");
                 }
             });
         }
     }
 
     @SuppressLint("NewApi")
-    //Function that will call Vendri.setup() with the given json object as string.
+    // Function that will call Vendri.setup() with the given json object as string.
     public static void start(final JSONObject config) {
-        Gson gson = new Gson();
+        final String customConfig = new Gson().toJson(config);
 
-        final String customConfig = gson.toJson(config);
-
-        if(vendriwebview != null && PA != null){
-            PA.runOnUiThread(new Runnable() {
+        if (webView != null && tetheredActivity != null) {
+            UiHelper.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Log.d("Vendri", "Called start with JSON");
-                    vendriwebview.loadUrl("javascript:Vendri.setup("+customConfig+");");
+                    webView.loadUrl("javascript:Vendri.setup(" + customConfig + ");");
                 }
             });
         }
     }
 
     @SuppressLint("NewApi")
-    //Function that will call Vendri.setup()
+    // Function that will call Vendri.setup()
     public static void start() {
-
-
-        if(vendriwebview != null && PA != null){
-            PA.runOnUiThread(new Runnable() {
+        if (webView != null && tetheredActivity != null) {
+            UiHelper.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Log.d("Vendri", "Called start without JSON");
-                    vendriwebview.loadUrl("javascript:Vendri.setup();");
+                    webView.loadUrl("javascript:Vendri.setup();");
                 }
             });
         }
     }
 
-    @SuppressLint("NewApi")
-    //Function that will call Vendri().play() with the given json object as string.
-    public static void play(final JSONObject config,final int PLID) {
-        Gson gson = new Gson();
+    private static void playWhenReady(final JSONObject config, final int PLID) {
+        final String customConfig = new Gson().toJson(config);
 
-        final String customConfig = gson.toJson(config);
-
-        if(vendriwebview != null && PA != null){
-            PA.runOnUiThread(new Runnable() {
+        if (webView != null && tetheredActivity != null) {
+            UiHelper.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Log.d("Vendri", "Called play with JSON");
-                    vendriwebview.loadUrl("javascript:Vendri.play("+customConfig+","+PLID+");");
+                    webView.loadUrl("javascript:Vendri.play(" + customConfig + "," + PLID + ");");
                 }
             });
         }
     }
 
     @SuppressLint("NewApi")
-    //Function that will call Vendri().play()
+    // Function that will call Vendri().play() with the given json object as string.
+    public static void play(final JSONObject config, final int PLID) {
+        // TODO: Add this safeguard to all play methods
+        if (dialogIsReady) {
+            playWhenReady(config, PLID);
+        }
+        else {
+            // re-call ourself until we're ready (TODO: add timeout or something)
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    play(config, PLID);
+                }
+            }, 500);
+        }
+    }
+
+    @SuppressLint("NewApi")
+    // Function that will call Vendri().play()
     public static void play() {
-
-
-        if(vendriwebview != null && PA != null){
-            PA.runOnUiThread(new Runnable() {
+        if (webView != null && tetheredActivity != null) {
+            UiHelper.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Log.d("Vendri", "Called play without JSON");
-                    vendriwebview.loadUrl("javascript:Vendri().play();");
+                    webView.loadUrl("javascript:Vendri().play();");
                 }
             });
         }

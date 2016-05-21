@@ -1,6 +1,10 @@
 [
     {
-        "merged": "C:\\Users\\jerem\\OneDrive\\Documents\\GitHub\\VendriAndroid\\VendriSDK\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\ic_launcher.png",
-        "source": "C:\\Users\\jerem\\OneDrive\\Documents\\GitHub\\VendriAndroid\\VendriSDK\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\ic_launcher.png"
+        "merged": "/Users/jgentry/Desktop/crunchyroid/VendriAndroid/VendriSDK/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_launcher.png",
+        "source": "/Users/jgentry/Desktop/crunchyroid/VendriAndroid/VendriSDK/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/jgentry/Desktop/crunchyroid/crunchyroid/VendriSDK/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_launcher.png",
+        "source": "/Users/jgentry/Desktop/crunchyroid/crunchyroid/VendriSDK/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/ic_launcher.png"
     }
 ]
