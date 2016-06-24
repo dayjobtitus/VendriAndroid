@@ -6,11 +6,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.net.Uri;
+import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -27,7 +30,7 @@ public class Vendri {
     private static Activity PA;
     protected static VendriListener vendriCallback;
     public static AlertDialog mDialog;
-    public static final String adUrl = "http://vendri.com/test/android.html";
+    public static final String adUrl = "https://vendri.com/test/android.html";
 
     /**
      * adds a view to the app, in which the ad in the url will be shown and on
@@ -72,9 +75,10 @@ public class Vendri {
                     });
 
                     playVideoInHTMLPlayer(mContext, dialogView,
-                                adUrl + "?pid=" + pid);
+                                adUrl + "?PID=" + pid);
+                    Log.d("vendri", "Loading iframe with html: " + adUrl + "?PID=" + pid);
                 } catch (Exception e) {
-                    Log.e("Error at Launch Add", e.getMessage());
+                    Log.e("Error at Launch Ad", e.getMessage());
                 }
             }
         });
@@ -83,6 +87,7 @@ public class Vendri {
     @SuppressLint("NewApi")
     public static void playVideoInHTMLPlayer(final Context context, final View dialogView,
                                              final String videoURL) {
+        Log.d("vendriwebview", "setting up");
         vendriwebview = new WebView(context);
 //        final Activity activity = (Activity) context;
 //        String vendriHtml = "function getParameterByName(name) {name = name.replace(/[\\[]/, \"\\\\[\").replace(/[\\]]/, \"\\\\]\");var regex = new RegExp(\"[\\\\?&]\" + name + \"=([^&#]*)\"),results = regex.exec(location.search);return results === null ? \"\" : decodeURIComponent(results[1].replace(/\\+/g, \" \"));}\n" +
@@ -97,6 +102,12 @@ public class Vendri {
         vendriwebview.setWebChromeClient(new
                 WebChromeClient());
         vendriwebview.setWebViewClient(new WebViewClient(){
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error){
+                handler.proceed();
+            }
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 try {
@@ -127,10 +138,14 @@ public class Vendri {
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
+        vendriwebview.setWebContentsDebuggingEnabled(true);
+
         ((RelativeLayout) dialogView).addView(vendriwebview);
 
         vendriwebview.loadUrl(videoURL);
 //        vendriwebview.loadDataWithBaseURL(null, vendriHtml, "text/html", "utf-8", null);
+
+        Log.d("vendriwebview", "should have loaded webview");
     }
 
     @SuppressLint("NewApi")
@@ -201,7 +216,7 @@ public class Vendri {
 
     @SuppressLint("NewApi")
     //Function that will call Vendri().play() with the given json object as string.
-    public static void play(final JSONObject config) {
+    public static void play(final JSONObject config,final int PLID) {
         Gson gson = new Gson();
 
         final String customConfig = gson.toJson(config);
@@ -211,7 +226,7 @@ public class Vendri {
                 @Override
                 public void run() {
                     Log.d("Vendri", "Called play with JSON");
-                    vendriwebview.loadUrl("javascript:Vendri().play("+customConfig+");");
+                    vendriwebview.loadUrl("javascript:Vendri.play("+customConfig+","+PLID+");");
                 }
             });
         }

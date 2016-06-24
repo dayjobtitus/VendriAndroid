@@ -1,6 +1,8 @@
-
-
+/build
+/VendriSample/build
+/VendriSDK/build
 .svn/
+/local.properties
 
 
 

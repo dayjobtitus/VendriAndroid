@@ -43,8 +43,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 @SuppressLint({ "NewApi", "SetJavaScriptEnabled" })
-public class HelloEffects extends Activity implements GLSurfaceView.Renderer,
-        VendriListener {
+public class HelloEffects extends Activity implements GLSurfaceView.Renderer, VendriListener {
 
     private GLSurfaceView mEffectView;
     private final int[] mTextures = new int[2];
@@ -56,7 +55,7 @@ public class HelloEffects extends Activity implements GLSurfaceView.Renderer,
     private Boolean mInitialized = false;
     int mCurrentEffect;
     public String[] vendriVar = new String[20];
-    public String vendriPID = "205";
+    public String vendriPID = "003";
 
 
     // implements the same listeners to recieve the callback for events
@@ -300,12 +299,13 @@ public class HelloEffects extends Activity implements GLSurfaceView.Renderer,
             applyEffect();
 
             // manual play request (bypasses or works in addition to triggers)
-            String json = "{\"adTags\":[\"http://ad3.liverail.com/?LR_PUBLISHER_ID=1331&LR_CAMPAIGN_ID=229&LR_SCHEMA=vast2\"],\"width\":640,\"height\":480,\"minWidth\":300,\"minHeight\":34,\"retry\":0,\"theme\":\"light\",\"autoplay\":true,\"volume\":0.7,\"controls\":{\"play\":true,\"volume\":true,\"mute\":true,\"progress\":true},\"map\":[{\"name\":\"asdf\",\"callback\":\"{vendriVar}\"}],\"events\":[{\"name\":\"adFinished\",\"callback\":\"helloWorld\"}],\"preferredType\":\"html5\",\"constraints\":{\"startTime\":3,\"playTime\":false},\"bitrate\":{\"check\":true,\"default\":600,\"async\":false},\"audioClickthrough\":false,\"debug\":false}";
+//            String json = "{\"adTags\":[\"http://ad3.liverail.com/?LR_PUBLISHER_ID=1331&LR_CAMPAIGN_ID=229&LR_SCHEMA=vast2\"],\"width\":640,\"height\":480,\"minWidth\":300,\"minHeight\":34,\"retry\":0,\"theme\":\"light\",\"autoplay\":true,\"volume\":0.7,\"controls\":{\"play\":true,\"volume\":true,\"mute\":true,\"progress\":true},\"map\":[{\"name\":\"asdf\",\"callback\":\"{vendriVar}\"}],\"events\":[{\"name\":\"adFinished\",\"callback\":\"helloWorld\"}],\"preferredType\":\"html5\",\"constraints\":{\"startTime\":3,\"playTime\":false},\"bitrate\":{\"check\":true,\"default\":600,\"async\":false},\"audioClickthrough\":false,\"debug\":false}";
+            String json = "{}";
             try {
 
                 JSONObject obj = new JSONObject(json);
 
-                Vendri.play(obj);
+                Vendri.play(obj, 6);
                 Log.d("My App", obj.toString());
 
             } catch (Throwable t) {
@@ -352,7 +352,7 @@ public class HelloEffects extends Activity implements GLSurfaceView.Renderer,
     }
 
     @Override
-    public void adFinished(final int status) {
+    public void adFinished() {
         Toast.makeText(getApplicationContext(), "Ad Finished", Toast.LENGTH_LONG).show();
     }
 
